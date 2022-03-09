@@ -4,15 +4,13 @@
 
 class shapes
 {
-protected:
-	int id;
-	shapes() : id(0)
-	{}
 public:
+	virtual ~shapes()
+	{}
 	static size_t count;
-	virtual void volume() = 0;
+	virtual void volume() const = 0;
 	virtual void set_data() = 0;
-	virtual void display_data() = 0;
+	virtual void display_data() const = 0;
 	virtual void diskIn() = 0;
-	virtual void diskOut() = 0;
+	virtual void diskOut() const = 0;
 };

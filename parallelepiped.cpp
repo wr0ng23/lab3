@@ -2,9 +2,14 @@
 
 parallelepiped::parallelepiped()
 {
-	id = ++count;
 	S = 0.0F;
 	h = 0.0F;
+	count++;
+}
+
+parallelepiped::~parallelepiped()
+{
+	count--;
 }
 
 void parallelepiped::set_data() 
@@ -13,17 +18,16 @@ void parallelepiped::set_data()
 	std::cout << "Введите высоту параллелепипеда\n"; h = input<float>();
 }
 
-void parallelepiped::display_data()
+void parallelepiped::display_data() const
 {
-	std::cout << "Объект №: " << id << " - параллелепипед" << std::endl;
+	std::cout << "Объект - параллелепипед" << std::endl;
 	std::cout << "Площадь основания параллелепипеда: " << S << std::endl;
 	std::cout << "Высота параллелепипеда: " << h << std::endl << std::endl;
 }
 
-void parallelepiped::volume() 
+void parallelepiped::volume() const 
 {
-	std::cout << "Объем параллелепипеда " << id << " : " << S * h
-		<< std::endl << std::endl;
+	std::cout << "Объем параллелепипеда: " << S * h << std::endl << std::endl;
 }
 
 void parallelepiped::diskIn()
@@ -40,26 +44,23 @@ void parallelepiped::diskIn()
 	if (!infile)
 	{
 		throw std::string("Невозможно чтение из файла!\n");
-		exit(1);
 	}
 	pn++;
 	infile.close();
 }
 
-void parallelepiped::diskOut()
+void parallelepiped::diskOut() const
 {
 	std::ofstream outfile;
-	outfile.open("parallelepiped.txt", std::ofstream::app);
+	outfile.open("parallelepiped.txt", std::ios::app);
 	if (!outfile)
 	{
 		throw std::string("Невозможно открыть выходной файл!\n");
-		exit(1);
 	}
 	outfile.write((char*)this, sizeof(*this));
 	if (!outfile)
 	{
 		throw std::string("Запись в файл невозможна!\n");
-		exit(1);
 	}
 	outfile.close();
 }

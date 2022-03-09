@@ -1,9 +1,13 @@
 #include "sphere.h"
 
-sphere::sphere()
+sphere::sphere() : R(0.0F)
 {
-	id = ++count;
-	R = 0.0F;
+	count++;
+}
+
+sphere::~sphere()
+{
+	count--;
 }
 
 void sphere::set_data()
@@ -11,16 +15,16 @@ void sphere::set_data()
 	std::cout << "Введите радиус шара\n"; R = input<float>();
 }
 
-void sphere::display_data() 
+void sphere::display_data() const
 {
-	std::cout << "Объект №: " << id << " - шар" << std::endl;
+	std::cout << "Объект - шар" << std::endl;
 	std::cout << "Радиус шара: " << R << std::endl << std::endl;
 }
 
-void sphere::volume()
+void sphere::volume() const
 {
 	const double pi = acos(-1);
-	std::cout << "Объем шара " << id << " : " << pi * pow(R, 3) * 4 / 3
+	std::cout << "Объем шара: " << pi * pow(R, 3) * 4 / 3
 		<< std::endl << std::endl;
 }
 
@@ -32,33 +36,29 @@ void sphere::diskIn()
 	if (!infile)
 	{
 		throw std::string("Невозможно открыть входной файл!\n");
-		exit(1);
 	}
 	infile.seekg(pn * sizeof(sphere));
 	infile.read((char*)this, sizeof(*this));
 	if (!infile)
 	{
 		throw std::string("Невозможно чтение из файла!\n");
-		exit(1);
 	}
 	pn++;
 	infile.close();
 }
 
-void sphere::diskOut()
+void sphere::diskOut() const
 {
 	std::ofstream outfile;
-	outfile.open("sphere.txt", std::ofstream::app);
+	outfile.open("sphere.txt", std::ios::app);
 	if (!outfile)
 	{
 		throw std::string("Невозможно открыть выходной файл!\n");
-		exit(1);
 	}
 	outfile.write((char*)this, sizeof(*this));
 	if (!outfile)
 	{
 		throw std::string("Запись в файл невозможна!\n");
-		exit(1);
 	}
 	outfile.close();
 }

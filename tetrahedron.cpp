@@ -1,9 +1,13 @@
 #include "tetrahedron.h"
 
-tetrahedron::tetrahedron()
+tetrahedron::tetrahedron() : a(0.0F)
 {
-	id = ++count;
-	a = 0.0F;
+	count++;
+}
+
+tetrahedron::~tetrahedron()
+{
+	count--;
 }
 
 void tetrahedron::set_data()
@@ -11,16 +15,16 @@ void tetrahedron::set_data()
 	std::cout << "Введите длину ребра тетраэдра\n"; a = input<float>();
 }
 
-void tetrahedron::display_data()
+void tetrahedron::display_data() const
 {
-	std::cout << "Объект №: " << id << " - тетраэдр" << std::endl;
+	std::cout << "Объект - тетраэдр" << std::endl;
 	std::cout << "Длина ребра тетраэдра: " << a << std::endl << std::endl;
 }
 
-void tetrahedron::volume()
+void tetrahedron::volume() const
 {
-	std::cout << "Объем правильного тетраэдра " << id << " : "
-		<< pow(a, 3) * sqrt(2) / 12 << std::endl << std::endl;
+	std::cout << "Объем правильного тетраэдра: " << pow(a, 3) * sqrt(2) / 12 
+		<< std::endl << std::endl;
 }
 
 void tetrahedron::diskIn()
@@ -31,33 +35,29 @@ void tetrahedron::diskIn()
 	if (!infile)
 	{
 		throw std::string("Невозможно открыть входной файл!\n");
-		exit(1);
 	}
 	infile.seekg(pn * sizeof(tetrahedron));
 	infile.read((char*)this, sizeof(*this));
 	if (!infile)
 	{
 		throw std::string("Невозможно чтение из файла!\n");
-		exit(1);
 	}
 	pn++;
 	infile.close();
 }
 
-void tetrahedron::diskOut()
+void tetrahedron::diskOut() const
 {
 	std::ofstream outfile;
-	outfile.open("tetrahedron.txt", std::ofstream::app);
+	outfile.open("tetrahedron.txt", std::ios::app);
 	if (!outfile)
 	{
 		throw std::string("Невозможно открыть выходной файл!\n");
-		exit(1);
 	}
 	outfile.write((char*)this, sizeof(*this));
 	if (!outfile)
 	{
 		throw std::string("Запись в файл невозможна!\n");
-		exit(1);
 	}
 	outfile.close();
 }
